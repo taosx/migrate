@@ -9,14 +9,22 @@ jobs:
     steps:
     - name: Check out the repo
       uses: actions/checkout@v2
+
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v1 
+      with:
+        registry: ghcr.io
+        username: ${{ github.repository_owner }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
     - name: Push to Github Packages
       uses: docker/build-push-action@v2.4.0
       with:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITGUB_PAT }}
-        registry: ghcr.io
-        repository: taosx/migrate
-        tags: ${{ github.sha }}
+        context: .
+        push: true
+        tags: |
+          ghcr.io/taosx/migrate:latest
+          ghcr.io/taosx/migrate:4.14.1
         build-args: |
           USER_ID=1000
           GROUP_ID=1000
