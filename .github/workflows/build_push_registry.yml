@@ -17,4 +17,7 @@ jobs:
         registry: ghcr.io
         repository: taosx/migrate
         tags: ${{ github.sha }}
+        build-args: |
+          USER_ID=1000
+          GROUP_ID=1000
         dockerfile: Dockerfile
